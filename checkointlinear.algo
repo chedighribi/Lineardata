@@ -1,0 +1,78 @@
+ALGORITHM sum1
+VAR
+    set1, set2, empty, distinct : ARRAY_OF INTEGER
+    i,j,sum : INTEGER
+BEGIN
+    i:=0
+    j:=0
+    k:=0
+    sum:=0
+    IF (set1.length < set2.length) THEN
+        empty := set1
+        set1 := set2
+        set2 := empty
+    END_IF
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        FOR j FROM 0 TO set2.length-1 STEP 1 DO
+        IF (set1[i]=set2[j]) THEN
+            sum:=sum+set1[i];
+            break;
+        END_IF
+        END_FOR
+        IF (set2[j]=set2.length-1) THEN
+            distinct[k] := set1[i];
+            k:=k+1;
+        END_IF
+    END_FOR
+    FOR j FROM 0 TO set2.length-1 STEP 1 DO
+        FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        IF (set1[i]=set2[j]) THEN
+            break
+        END_IF
+        END_FOR
+        IF (set1[i]=set1.length-1) THEN
+            distinct[k] := set1[2]
+            k:=k+1
+        END_IF
+    END_FOR
+    Write ("Output:",sum "distinct elements",distinct)
+
+END
+
+//-------------------------------------hash table--------------------------------------------------
+
+ALGORITHM sum2
+VAR
+    i,sum,k:INTEGER;
+    set1,set2 : HASH_TABLE<INTEGER,INTEGER>.
+    key,T : ARRAY_OF INTEGER[10];
+
+BEGIN
+    set1.insert(3,1);
+    set1.insert(1,1);
+    set1.insert(7,1);
+    set1.insert(9,1);
+    set2.insert(2,1);
+    set2.insert(4,1);
+    set2.insert(1,1);
+    set2.insert(9,1);
+    set2.insert(3,1);
+    sum:=0;
+    key:=set2.keys();
+    K:=0
+    FOR i FROM 0 TO set2.length-1 STEP 1  DO
+        IF (set1.lookup(key[i])=FALSE) THEN
+        sum:=sum+key[i];
+        ELSE 
+        T[k]:=key[i];
+        K:=k+1
+        END_IF
+
+    END_FOR
+    key:=set1.key();
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        IF (set2.lookup(key[i])=FALSE) THEN
+        sum:=sum+key[i];
+    END_FOR
+    write(sum)
+END 
